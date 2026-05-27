@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"  >
+<head>
+    
+    <title>Principal - VETERINARIO</title>
+</head>
+<body>
+    <h1>Bem Vindo, <span th:text="${session.funcionario.nome}"></span></h1>
+    <form method="post" action="/logout">
+        <button type="submit">Sair</button>
+    </form>
+</body>
+</html>
