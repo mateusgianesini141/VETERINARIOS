@@ -1,83 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="UTF-8">
     <title>Lista de Animais</title>
+</head>
+<body>
 
-    
+<h1>Animais Cadastrados</h1>
 
-<h1>Lista de Animais</h1>
-
-<!-- FORMULÁRIO -->
-<div class="formulario">
-
-    <h2>Cadastrar Animal</h2>
-
-    <form action="/animais/salvar" method="post">
-
-        <input type="text"
-               name="nome"
-               placeholder="Nome"
-               required>
-
-        <input type="text"
-               name="especie"
-               placeholder="Espécie"
-               required>
-
-        <input type="text"
-               name="raca"
-               placeholder="Raça"
-               required>
-
-        <input type="number"
-               step="0.1"
-               name="peso"
-               placeholder="Peso"
-               required>
-
-        <button type="submit">Salvar</button>
-
-    </form>
-
-</div>
-
-<!-- BUSCA -->
-<form action="/animais" method="get">
-
-    <input type="text"
-           name="busca"
-           placeholder="Digite o nome do animal"
-           th:value="${busca}">
-
-    <button type="submit">Buscar</button>
-
-</form>
-
-<!-- TABELA -->
-<table>
-
+<table border="1">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Nome</th>
             <th>Espécie</th>
             <th>Raça</th>
             <th>Peso</th>
+            <th>Ações</th>
+
+                        
         </tr>
     </thead>
 
     <tbody>
-
         <tr th:each="animal : ${animais}">
+            <td th:text="${animal.id}"></td>
             <td th:text="${animal.nome}"></td>
             <td th:text="${animal.especie}"></td>
             <td th:text="${animal.raca}"></td>
             <td th:text="${animal.peso}"></td>
+
+
+
+            <td>
+                <a th:href="@{/animais/editar/{id}(id=${animal.id})}">
+                    Editar
+                </a>
+                <td>
+    <a th:href="@{/animais/editar/{id}(id=${animal.id})}">Editar </a>
+    </td>
+
+    |<a th:href="@{/animais/excluir/{id}(id=${animal.id})}"
+       onclick="return confirm('Deseja realmente excluir este animal?');">
+        Excluir
+    </a>
+
+
+            </td>
+
         </tr>
-
     </tbody>
-
 </table>
 
 </body>

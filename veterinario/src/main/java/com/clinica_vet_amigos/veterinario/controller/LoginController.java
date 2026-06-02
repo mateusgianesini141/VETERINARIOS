@@ -4,11 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
+@RequestMapping("/auth")
 public class LoginController {
 
     @GetMapping("/login")
-    public String abrirLogin() {
+    public String telaLogin() {
         return "login";
     }
 
@@ -16,19 +19,21 @@ public class LoginController {
     public String fazerLogin(
             @RequestParam String usuario,
             @RequestParam String senha,
+            HttpSession session,
             Model model) {
 
-        // usuário e senha corretos
-        if(usuario.equals("admin") && senha.equals("123")) {
-
-            model.addAttribute("mensagem", "Bem-vindo ao Sistema da Clínica Vet Amigos!");
-
-            return "principal";
+        if ("admin".equals(usuario) && "123".equals(senha)) {
+            session.setAttribute("usuarioLogado", usuario);
+            return "redirect:/animais";
         }
 
-        // senha errada
         model.addAttribute("erro", "Usuário ou senha inválidos!");
-
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/auth/login";
     }
 }
