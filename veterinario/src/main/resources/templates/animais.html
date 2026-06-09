@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-    <title>Lista de Animais</title>
+    <title>Animais - Clínica Vet Amigos</title>
 </head>
 <body>
 
-<h1>Animais Cadastrados</h1>
+<h1>Animais - Clínica Vet Amigos</h1>
+<form action="/animais/salvar" method="post">
+
+    <label>Nome:</label>
+    <input type="text" name="nome" required>
+
+    <label>Espécie:</label>
+    <input type="text" name="especie" required>
+
+    <label>Raça:</label>
+    <input type="text" name="raca" required>
+
+    <label>Peso:</label>
+    <input type="number" step="0.01" name="peso" required>
+
+    <button type="submit">Adicionar Animal</button>
+
+</form>
+
+<br><hr><br>
 
 <table border="1">
     <thead>
@@ -16,8 +35,6 @@
             <th>Raça</th>
             <th>Peso</th>
             <th>Ações</th>
-
-                        
         </tr>
     </thead>
 
@@ -29,27 +46,29 @@
             <td th:text="${animal.raca}"></td>
             <td th:text="${animal.peso}"></td>
 
-
-
             <td>
                 <a th:href="@{/animais/editar/{id}(id=${animal.id})}">
                     Editar
+
                 </a>
-                <td>
-    <a th:href="@{/animais/editar/{id}(id=${animal.id})}">Editar </a>
-    </td>
+                 |
+                <a th:href="@{/animais/excluir/{id}(id=${animal.id})}"
+                   onclick="return confirm('Deseja realmente excluir este animal?');">
+                    Excluir
 
-    |<a th:href="@{/animais/excluir/{id}(id=${animal.id})}"
-       onclick="return confirm('Deseja realmente excluir este animal?');">
-        Excluir
-    </a>
-
-
+                        
+                </a>
             </td>
-
         </tr>
     </tbody>
 </table>
+
+<br>
+
+<a href="/auth/logout">
+    <button>Sair</button>
+</a>
+
 
 </body>
 </html>

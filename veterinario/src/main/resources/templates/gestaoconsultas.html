@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clínica Vet Amigos - Gestão de Consultas</title>
+</head>
+<body>
+
+<header>
+    <h1>🐾 Clínica Vet Amigos</h1>
+    <p>Gestão de Consultas Veterinárias</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Nova Consulta</h2>
+
+        <form id="formConsulta">
+
+            <label>Nome do Animal</label>
+            <input type="text" id="animal" required>
+
+            <label>Tutor</label>
+            <input type="text" id="tutor" required>
+
+            <label>Veterinário</label>
+            <input type="text" id="veterinario" required>
+
+            <label>Data</label>
+            <input type="date" id="data" required>
+
+            <label>Horário</label>
+            <input type="time" id="hora" required>
+
+            <label>Status</label>
+            <select id="status">
+                <option>Agendada</option>
+                <option>Realizada</option>
+                <option>Cancelada</option>
+            </select>
+
+            <button type="submit">Cadastrar Consulta</button>
+
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Consultas Agendadas</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Animal</th>
+                    <th>Tutor</th>
+                    <th>Veterinário</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabelaConsultas">
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+
+const form = document.getElementById("formConsulta");
+const tabela = document.getElementById("tabelaConsultas");
+
+form.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const animal = document.getElementById("animal").value;
+    const tutor = document.getElementById("tutor").value;
+    const veterinario = document.getElementById("veterinario").value;
+    const data = document.getElementById("data").value;
+    const hora = document.getElementById("hora").value;
+    const status = document.getElementById("status").value;
+
+    let classeStatus = "";
+
+    if(status === "Agendada"){
+        classeStatus = "agendada";
+    }else if(status === "Realizada"){
+        classeStatus = "realizada";
+    }else{
+        classeStatus = "cancelada";
+    }
+
+    tabela.innerHTML += `
+        <tr>
+            <td>${animal}</td>
+            <td>${tutor}</td>
+            <td>${veterinario}</td>
+            <td>${data}</td>
+            <td>${hora}</td>
+            <td class="${classeStatus}">${status}</td>
+        </tr>
+    `;
+
+    form.reset();
+});
+
+</script>
+
+</body>
+</html>

@@ -7,29 +7,25 @@
 
 <h1>Editar Animal</h1>
 
-<form th:action="@{/animais/atualizar}" th:object="${animal}" method="post">
+<form th:action="@{/animais/editar}" method="post">
+    
 
-    <input type="hidden" th:field="*{id}">
-
+    <input type="hidden" name="id" th:value="${animal.id}">
     <label>Nome:</label>
-    <input type="text" th:field="*{nome}">
+    <input type="text" name="nome" th:value="${animal.nome}">
     <br><br>
-
     <label>Espécie:</label>
-    <input type="text" th:field="*{especie}">
+    <input type="text" name="especie" th:value="${animal.especie}">
     <br><br>
-
     <label>Raça:</label>
-    <input type="text" th:field="*{raca}">
+    <input type="text" name="raca" th:value="${animal.raca}">
     <br><br>
-
     <label>Peso:</label>
-    <input type="number" step="0.01" th:field="*{peso}">
+    <input type="number" step="0.01" name="peso" th:value="${animal.peso}">
     <br><br>
-
-    <button type="submit">Salvar Alterações</button>
-
+    <button type="submit">Salvar</button>
 </form>
-
+<br>
+<a href="/animais">Voltar</a>
 </body>
 </html>
