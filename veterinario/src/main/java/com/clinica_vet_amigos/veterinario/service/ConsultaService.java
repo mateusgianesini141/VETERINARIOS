@@ -1,4 +1,4 @@
-package com.clinica_vet_amigos.service;
+package com.clinica_vet_amigos.veterinario.service;
 
 import java.util.List;
 
