@@ -1,115 +1,260 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clínica Vet Amigos - Gestão de Consultas</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1{
+    color: #2c3e50;
+}
+
+table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top:20px;
+}
+
+table, th, td{
+    border:1px solid #ccc;
+}
+
+th{
+    background-color:#f2f2f2;
+}
+
+th, td{
+    padding:10px;
+    text-align:center;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    margin-bottom:10px;
+}
+
+.formulario{
+    border:1px solid #ccc;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.btn{
+    padding:8px 15px;
+    border:none;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+.salvar{
+    background-color:green;
+    color:white;
+}
+
+.editar{
+    background-color:orange;
+    color:white;
+}
+
+.excluir{
+    background-color:red;
+    color:white;
+}
+
+.novo{
+    background-color:blue;
+    color:white;
+}
+
+.entrada{
+    color:green;
+    font-weight:bold;
+}
+
+.saida{
+    color:red;
+    font-weight:bold;
+}
+
+</style>
+
 </head>
 <body>
 
-<header>
-    <h1>🐾 Clínica Vet Amigos</h1>
-    <p>Gestão de Consultas Veterinárias</p>
-</header>
+<h1>🐾 Clínica Vet Amigos - Gestão de Consultas</h1>
 
-<div class="container">
+<a href="/principal">
+    <button class="btn novo">Página Inicial</button>
+</a>
 
-    <div class="card">
-        <h2>Nova Consulta</h2>
+<hr>
 
-        <form id="formConsulta">
+<div th:if="${mensagem}" style="color:green;">
+    <p th:text="${mensagem}"></p>
+</div>
 
-            <label>Nome do Animal</label>
-            <input type="text" id="animal" required>
+<div th:if="${erro}" style="color:red;">
+    <p th:text="${erro}"></p>
+</div>
 
-            <label>Tutor</label>
-            <input type="text" id="tutor" required>
+<div class="formulario">
 
-            <label>Veterinário</label>
-            <input type="text" id="veterinario" required>
+<h2>Nova Consulta</h2>
 
-            <label>Data</label>
-            <input type="date" id="data" required>
+<form th:action="@{/consultas/salvar}"
+      th:object="${consulta}"
+      method="post">
 
-            <label>Horário</label>
-            <input type="time" id="hora" required>
+    <input type="hidden" th:field="*{id}">
 
-            <label>Status</label>
-            <select id="status">
-                <option>Agendada</option>
-                <option>Realizada</option>
-                <option>Cancelada</option>
-            </select>
+    <label>Nome do Animal:</label>
+    <input type="text"
+           th:field="*{nomeAnimal}"
+           required>
 
-            <button type="submit">Cadastrar Consulta</button>
+    <label>Nome do Tutor:</label>
+    <input type="text"
+           th:field="*{nomeTutor}"
+           required>
 
-        </form>
-    </div>
+    <label>Veterinário:</label>
+    <input type="text"
+           th:field="*{veterinario}"
+           required>
 
-    <div class="card">
-        <h2>Consultas Agendadas</h2>
+    <label>Tipo da Consulta:</label>
+    <select th:field="*{tipoConsulta}">
+        <option value="">Selecione...</option>
+        <option value="CONSULTA">Consulta</option>
+        <option value="VACINACAO">Vacinação</option>
+        <option value="RETORNO">Retorno</option>
+        <option value="CIRURGIA">Cirurgia</option>
+        <option value="EXAME">Exame</option>
+    </select>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Animal</th>
-                    <th>Tutor</th>
-                    <th>Veterinário</th>
-                    <th>Data</th>
-                    <th>Hora</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
+    <label>Movimentação:</label>
+    <select th:field="*{movimentacao}">
+        <option value="">Selecione...</option>
+        <option value="ENTRADA">Entrada</option>
+        <option value="SAIDA">Saída</option>
+    </select>
 
-            <tbody id="tabelaConsultas">
+    <label>Data:</label>
+    <input type="date"
+           th:field="*{data}"
+           required>
 
-            </tbody>
-        </table>
-    </div>
+    <label>Horário:</label>
+    <input type="time"
+           th:field="*{horario}"
+           required>
+
+    <label>Observações:</label>
+    <textarea th:field="*{observacoes}"
+              rows="4"></textarea>
+
+    <button type="submit" class="btn salvar">
+        Salvar Consulta
+    </button>
+
+</form>
 
 </div>
 
-<script>
+<hr>
 
-const form = document.getElementById("formConsulta");
-const tabela = document.getElementById("tabelaConsultas");
+<h2>Lista de Consultas</h2>
 
-form.addEventListener("submit", function(e){
+<table>
 
-    e.preventDefault();
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Animal</th>
+    <th>Tutor</th>
+    <th>Veterinário</th>
+    <th>Tipo</th>
+    <th>Entrada/Saída</th>
+    <th>Data</th>
+    <th>Horário</th>
+    <th>Observações</th>
+    <th>Ações</th>
+</tr>
+</thead>
 
-    const animal = document.getElementById("animal").value;
-    const tutor = document.getElementById("tutor").value;
-    const veterinario = document.getElementById("veterinario").value;
-    const data = document.getElementById("data").value;
-    const hora = document.getElementById("hora").value;
-    const status = document.getElementById("status").value;
+<tbody>
 
-    let classeStatus = "";
+<tr th:each="consulta : ${consultas}">
 
-    if(status === "Agendada"){
-        classeStatus = "agendada";
-    }else if(status === "Realizada"){
-        classeStatus = "realizada";
-    }else{
-        classeStatus = "cancelada";
-    }
+    <td th:text="${consulta.id}"></td>
 
-    tabela.innerHTML += `
-        <tr>
-            <td>${animal}</td>
-            <td>${tutor}</td>
-            <td>${veterinario}</td>
-            <td>${data}</td>
-            <td>${hora}</td>
-            <td class="${classeStatus}">${status}</td>
-        </tr>
-    `;
+    <td th:text="${consulta.nomeAnimal}"></td>
 
-    form.reset();
-});
+    <td th:text="${consulta.nomeTutor}"></td>
 
-</script>
+    <td th:text="${consulta.veterinario}"></td>
+
+    <td th:text="${consulta.tipoConsulta}"></td>
+
+    <td>
+
+        <span th:if="${consulta.movimentacao == 'ENTRADA'}"
+              class="entrada">
+            ENTRADA
+        </span>
+
+        <span th:if="${consulta.movimentacao == 'SAIDA'}"
+              class="saida">
+            SAÍDA
+        </span>
+
+    </td>
+
+    <td th:text="${consulta.data}"></td>
+
+    <td th:text="${consulta.horario}"></td>
+
+    <td th:text="${consulta.observacoes}"></td>
+
+    <td>
+
+        <a th:href="@{/consultas/editar/{id}(id=${consulta.id})}">
+            <button type="button" class="btn editar">
+                Editar
+            </button>
+        </a>
+
+        <a th:href="@{/consultas/excluir/{id}(id=${consulta.id})}"
+           onclick="return confirm('Deseja excluir esta consulta?')">
+
+            <button type="button" class="btn excluir">
+                Excluir
+            </button>
+
+        </a>
+
+    </td>
+
+</tr>
+
+<tr th:if="${#lists.isEmpty(consultas)}">
+    <td colspan="10">
+        Nenhuma consulta cadastrada.
+    </td>
+</tr>
+
+</tbody>
+
+</table>
 
 </body>
 </html>

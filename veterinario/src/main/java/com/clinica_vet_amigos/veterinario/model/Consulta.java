@@ -1,6 +1,7 @@
 package com.clinica_vet_amigos.veterinario.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class Consulta {
@@ -9,17 +10,19 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String descricao;
+    private String nomeAnimal;
 
-    @ManyToOne
-    @JoinColumn(name = "animal_id")
-    private Animal animal;
+    private String nomeTutor;
 
-    @ManyToOne
-    @JoinColumn(name = "veterinario_id")
-    private Veterinario veterinario;
+    private String veterinario;
 
-    
+    private LocalDate dataConsulta;
+
+    private String observacoes;
+
+    public Consulta() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -28,87 +31,43 @@ public class Consulta {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNomeAnimal() {
+        return nomeAnimal;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNomeAnimal(String nomeAnimal) {
+        this.nomeAnimal = nomeAnimal;
     }
 
-    public Animal getAnimal() {
-        return animal;
+    public String getNomeTutor() {
+        return nomeTutor;
     }
 
-    public void setAnimal(Animal animal) {
-        this.animal = animal;
+    public void setNomeTutor(String nomeTutor) {
+        this.nomeTutor = nomeTutor;
     }
 
-    public Object getDataConsulta() {
-        return null;
+    public String getVeterinario() {
+        return veterinario;
     }
 
-    public Object getHoraConsulta() {
-        return null;
+    public void setVeterinario(String veterinario) {
+        this.veterinario = veterinario;
     }
 
-    public Object getObservacoes() {
-        return null;
+    public LocalDate getDataConsulta() {
+        return dataConsulta;
     }
 
-    public Object getDiagnostico() {
-        return null;
+    public void setDataConsulta(LocalDate dataConsulta) {
+        this.dataConsulta = dataConsulta;
     }
 
-    public Object getTratamento() {
-        return null;
+    public String getObservacoes() {
+        return observacoes;
     }
 
-    public Object getValor() {
-        return null;
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
     }
-
-    public Object getStatus() {
-        return null;
-    }
-
-    public Object getTemperaturaAnimal() {
-        return null;
-    }
-
-    public void setDataConsulta(Object dataConsulta) {
-      return;
-    }
-
-    public void setHoraConsulta(Object horaConsulta) {
-        return;
-    }
-
-    public void setDiagnostico(Object diagnostico) {
-        return;
-    }
-
-    public void setObservacoes(Object observacoes) {
-        return;
-    }
-
-    public void setTratamento(Object tratamento) {
-        return;
-    }
-
-    public void setValor(Object valor) {
-        return;
-    }
-
-    public void setStatus(Object status) {
-        return;
-    }
-
-    public void setPesoAnimal(Animal animal2) {
-        return;
-    }
-
-    public void setTemperaturaAnimal(Object temperaturaAnimal) {
-        return;
-}
 }
